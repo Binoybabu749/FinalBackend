@@ -19,7 +19,7 @@ namespace Online_food_delivery_system.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "customer,resturant,admin")]
+        [Authorize(Roles = "customer,restaurant,admin")]
         public async Task<IActionResult> GetAllRestaurants()
         {
             var restaurants = await _restaurantService.GetAllRestaurantsAsync();
@@ -27,7 +27,7 @@ namespace Online_food_delivery_system.Controllers
         }
 
         [HttpGet("{email}")]
-        [Authorize(Roles = "customer,resturant,admin")]
+        [Authorize(Roles = "customer,restaurant,admin")]
         public async Task<IActionResult> GetRestaurantById(string email)
         {
             var restaurant = await _restaurantService.GetRestaurantByIdAsync(email);
@@ -37,7 +37,7 @@ namespace Online_food_delivery_system.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "resturant,admin")]
+        [Authorize(Roles = "restaurant,admin")]
           
         public async Task<IActionResult> AddRestaurant([FromBody] RestaurantDTO restaurantDto)
         {
@@ -59,7 +59,7 @@ namespace Online_food_delivery_system.Controllers
 
 
         [HttpPut("{id}")]
-        [Authorize(Roles = "resturant,admin")]
+        [Authorize(Roles = "restaurant,admin")]
         public async Task<IActionResult> UpdateRestaurant(int id, [FromBody] Restaurant restaurant)
         {
             if (id != restaurant.RestaurantID)
@@ -83,7 +83,7 @@ namespace Online_food_delivery_system.Controllers
 
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "resturant,admin")]
+        [Authorize(Roles = "restaurant,admin")]
         public async Task<IActionResult> DeleteRestaurant(int id)
         {
             await _restaurantService.DeleteRestaurantAsync(id);

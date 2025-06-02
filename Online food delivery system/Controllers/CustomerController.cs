@@ -49,7 +49,7 @@ namespace Online_food_delivery_system.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "customer,admin")]
+        [Authorize(Roles = "customer,admin")]
         public async Task<IActionResult> AddCustomer([FromBody] Customer customer)
         {
 
