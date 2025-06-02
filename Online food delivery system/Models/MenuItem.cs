@@ -20,7 +20,7 @@ namespace Online_food_delivery_system.Models
         [Column(TypeName = "decimal(10, 2)")]
         
         public decimal? Price { get; set; }
-
+        public string? ImageUrl { get; set; }
         [ForeignKey("Restaurant")]
         public int? RestaurantID { get; set; }
         public Restaurant? Restaurant { get; set; }

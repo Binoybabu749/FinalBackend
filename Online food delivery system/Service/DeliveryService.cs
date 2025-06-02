@@ -50,32 +50,35 @@ namespace Online_food_delivery_system.Service
             await _deliveryRepository.UpdateAgentAvailabilityAsync(selectedAgent);
         }
 
-
-        public async Task UpdateDeliveryStatusAsync(int deliveryId, string status)
+        public async Task UpdateAgentAsync(Agent agent)
         {
-            // Fetch the delivery by ID
+            await _deliveryRepository.UpdateAgentAvailabilityAsync(agent);
+        }
+
+
+        public async Task UpdateDeliveryAsync(int deliveryId, string status)
+        {
             var delivery = await _deliveryRepository.GetByIdAsync(deliveryId);
             if (delivery == null)
             {
                 throw new Exception("Delivery not found");
             }
 
-            // Update the delivery status
             delivery.Status = status;
 
-            // If the delivery is completed, mark the agent as available
             if (status.ToLower() == "completed")
             {
                 var agent = delivery.Agent;
                 if (agent != null)
                 {
-                    agent.IsAvailable = true; // Mark the agent as available
+                    agent.IsAvailable = true;
+                    await _deliveryRepository.UpdateAgentAvailabilityAsync(agent); // Ensure this is called
                 }
             }
 
-            // Save the updated delivery
             await _deliveryRepository.UpdateAsync(delivery);
         }
+
 
 
 

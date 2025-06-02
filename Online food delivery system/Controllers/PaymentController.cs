@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Online_food_delivery_system.Models;
@@ -8,6 +9,7 @@ namespace Online_food_delivery_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowReactApp")]
     public class PaymentController : ControllerBase
     {
         private readonly PaymentService _paymentService;
@@ -31,47 +33,26 @@ namespace Online_food_delivery_system.Controllers
                 return NotFound("Payment not found");
             return Ok(payment);
         }
-
         [HttpPatch("{id}/status")]
         public async Task<IActionResult> UpdatePaymentStatus(int id, [FromBody] string status)
         {
             if (string.IsNullOrWhiteSpace(status))
                 return BadRequest("Status cannot be null or empty");
 
+            string normalizedStatus = status.ToLower();
+
+            if (normalizedStatus != "completed")
+                return BadRequest("Only 'completed' status is allowed for this operation.");
+
             var payment = await _paymentService.GetPaymentByIdAsync(id);
             if (payment == null)
                 return NotFound("Payment not found");
 
-            payment.Status = status;
-            //if status is "completed"  then assign the delivery id
-            if (status.ToLower() == "completed")
-            {
-                var delivery = payment.Order?.Delivery;
-                if (delivery == null)
-                {
-                    return BadRequest("Delivery not found for the associated order.");
-                }
+            payment.Status = "Completed";
 
-                // Check for an available agent
-                var availableAgent = await _paymentService.GetAvailableAgentAsync();
-                if (availableAgent == null)
-                {
-                    return BadRequest("No available agents to assign.");
-                }
-                delivery.AgentID = availableAgent.AgentID;
-                delivery.Agent = availableAgent;
-                delivery.Status = "Assigned";
-
-                // Update the agent's availability to false
-                availableAgent.IsAvailable = false;
-
-                // Update the delivery and agent in the database
-                await _paymentService.UpdateDeliveryAsync(delivery);
-                await _paymentService.UpdateAgentAsync(availableAgent);
-            }
             await _paymentService.UpdatePaymentAsync(payment);
 
-            return Ok("Payment status updated successfully and agent assigned");
+            return Ok("Payment status updated successfully");
         }
 
 

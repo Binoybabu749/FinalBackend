@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Online_food_delivery_system.Migrations;
 using Online_food_delivery_system.Models;
 using Online_food_delivery_system.Service;
@@ -7,6 +8,7 @@ namespace Online_food_delivery_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowReactApp")]
     public class OrderController : ControllerBase
     {
         private readonly OrderService _orderService;
@@ -95,34 +97,89 @@ namespace Online_food_delivery_system.Controllers
         {
             if (string.IsNullOrWhiteSpace(status))
                 return BadRequest("Status cannot be null or empty");
+
+            string normalizedStatus = status.ToLower();
+
+            if (normalizedStatus != "confirmed" && normalizedStatus != "completed")
+                return BadRequest("Only 'confirmed' or 'completed' statuses are allowed.");
+
             var order = await _orderService.GetOrderByIdAsync(id);
             if (order == null)
                 return NotFound("Order not found");
-            order.Status = status;
-            if(status.ToLower() == "completed")
+
+            Payment payment = order.Payment;
+
+            order.Status = normalizedStatus;
+
+            // Handle "confirmed" status
+            if (normalizedStatus == "confirmed")
             {
-                var delivery = order.Delivery;
-                if (delivery != null)
+                if (payment == null)
                 {
-                    var agent=delivery.Agent;
-                    if(agent!= null)
+                    // Create a pending payment if none exists
+                    payment = new Payment
                     {
-                       
-                        agent.IsAvailable= true;
-                        await _orderService.UpdateAgentAsync(agent);
-                    }
-                    else
-                    {
-                        return BadRequest("No agent is assigned to the delivery.");
-                    }
+                        OrderID = order.OrderID,
+                        Amount = order.TotalAmount,
+                        PaymentMethod = "Google Pay",
+                        Status = "pending"
+                    };
+                    await _orderService.CreatePaymentAsync(payment);
                 }
-                else
-                    {
-                        return BadRequest("No delivery is associated with the order.");
-                    }
+                else if (payment.Status?.ToLower() == "completed")
+                {
+                    // Payment is already completed, so do delivery operation and assign agent
+                    var delivery = order.Delivery;
+                    if (delivery == null)
+                        return BadRequest("Delivery not found for the associated order.");
+
+                    var availableAgent = await _orderService.GetAvailableAgentAsync();
+                    if (availableAgent == null)
+                        return BadRequest("No available agents to assign.");
+
+                    delivery.AgentID = availableAgent.AgentID;
+                    delivery.Agent = availableAgent;
+                    delivery.Status = "assigned";
+
+                    availableAgent.IsAvailable = false;
+
+                    await _orderService.UpdateDeliveryAsync(delivery);
+                    await _orderService.UpdateAgentAsync(availableAgent);
+                }
             }
+
+            // Handle "completed" status
+            if (normalizedStatus == "completed")
+            {
+                if (payment == null || payment.Status?.ToLower() != "completed")
+                {
+                    return BadRequest("Payment must be completed before completing the order.");
+                }
+
+                var delivery = order.Delivery;
+                if (delivery == null)
+                    return BadRequest("Delivery not found for the associated order.");
+
+                var availableAgent = await _orderService.GetAvailableAgentAsync();
+                if (availableAgent == null)
+                    return BadRequest("No available agents to assign.");
+
+                delivery.AgentID = availableAgent.AgentID;
+                delivery.Agent = availableAgent;
+                delivery.Status = "assigned";
+
+                availableAgent.IsAvailable = false;
+
+                await _orderService.UpdateDeliveryAsync(delivery);
+                await _orderService.UpdateAgentAsync(availableAgent);
+            }
+
             await _orderService.UpdateOrderAsync(order);
             return Ok("Order status updated successfully");
         }
+
+
+
+
     }
 }

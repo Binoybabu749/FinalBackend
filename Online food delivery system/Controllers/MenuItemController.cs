@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Online_food_delivery_system.Models;
 using Online_food_delivery_system.Service;
 
@@ -6,6 +7,7 @@ namespace Online_food_delivery_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowReactApp")]
     public class MenuItemController : ControllerBase
     {
         private readonly MenuItemService _menuItemService;

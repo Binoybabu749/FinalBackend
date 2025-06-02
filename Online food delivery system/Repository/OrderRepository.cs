@@ -46,17 +46,17 @@ namespace Online_food_delivery_system.Repository
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
 
-            // Create the payment entry
-            Payment payment = new Payment
-            {
-                OrderID = order.OrderID,
-                Amount = order.TotalAmount,
-                PaymentMethod = "Google Pay", // or any default value
-                Status = "Pending" // or any default value
-            };
+            //// Create the payment entry
+            //Payment payment = new Payment
+            //{
+            //    OrderID = order.OrderID,
+            //    Amount = order.TotalAmount,
+            //    PaymentMethod = "Google Pay", // or any default value
+            //    Status = "Pending" // or any default value
+            //};
 
-            await _context.Payments.AddAsync(payment);
-            await _context.SaveChangesAsync();
+            //await _context.Payments.AddAsync(payment);
+            //await _context.SaveChangesAsync();
             Delivery delivery = new Delivery
             {
                 OrderID = order.OrderID,
@@ -94,13 +94,14 @@ namespace Online_food_delivery_system.Repository
                 .ToListAsync();
         }
 
-        public async Task<Order> GetByIdAsync(int? orderID)
+        public async Task<Order> GetByIdAsync(int? orderId)
         {
             return await _context.Orders
+                .Include(o => o.Payment)
                 .Include(o => o.Delivery)
-                .ThenInclude(d => d.Agent) // Include the Agent navigation property
-                .FirstOrDefaultAsync(o => o.OrderID == orderID);
+                .FirstOrDefaultAsync(o => o.OrderID == orderId);
         }
+
 
         public async Task UpdateAsync(Order order)
         {

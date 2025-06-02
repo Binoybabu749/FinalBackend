@@ -53,6 +53,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                        ValidateAudience = false
                    };
                });
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+        });
+});
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
@@ -91,6 +102,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("MyCorsPolicy");
 
 app.UseAuthorization();
 

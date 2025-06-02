@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Online_food_delivery_system.Models;
 using Online_food_delivery_system.Service;
@@ -7,6 +8,7 @@ namespace Online_food_delivery_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowReactApp")]
     public class RestaurantController : ControllerBase
     {
         private readonly RestaurantService _restaurantService;
@@ -24,11 +26,11 @@ namespace Online_food_delivery_system.Controllers
             return Ok(restaurants);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{email}")]
         [Authorize(Roles = "customer,resturant,admin")]
-        public async Task<IActionResult> GetRestaurantById(int id)
+        public async Task<IActionResult> GetRestaurantById(string email)
         {
-            var restaurant = await _restaurantService.GetRestaurantByIdAsync(id);
+            var restaurant = await _restaurantService.GetRestaurantByIdAsync(email);
             if (restaurant == null)
                 return NotFound("Restaurant not found");
             return Ok(restaurant);
@@ -66,13 +68,13 @@ namespace Online_food_delivery_system.Controllers
             await _restaurantService.UpdateRestaurantAsync(restaurant);
             return NoContent();
         }
-        [HttpPatch("{id}")]
+        [HttpPatch("{email}")]
         [Authorize(Roles = "admin, restaurant")]
-        public async Task<IActionResult> UpdatePhoneAddr(int id, [FromBody] UpdatePhoneAddrDTO upd)
+        public async Task<IActionResult> UpdatePhoneAddr(string email, [FromBody] UpdatePhoneAddrDTO upd)
         {
-            var existing = await _restaurantService.GetRestaurantByIdAsync(id);
+            var existing = await _restaurantService.GetRestaurantByIdAsync(email);
             if (existing == null)
-                return NotFound("Customer not found");
+                return NotFound("Restaurant not found");
             existing.RestaurantContact = upd.Phone;
             existing.Address = upd.Address;
             await _restaurantService.UpdateRestaurantAsync(existing);

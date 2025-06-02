@@ -1,12 +1,16 @@
 ﻿using Online_food_delivery_system.Interface;
 using Online_food_delivery_system.Models;
+using Online_food_delivery_system.Repository;
 
 public class OrderService
 {
     private readonly IOrder _orderRepository;
-    public OrderService(IOrder orderRepository)
+    private readonly IPayment _paymentRepository;
+
+    public OrderService(IOrder orderRepository,IPayment paymentRepository)
     {
         _orderRepository = orderRepository;
+        _paymentRepository = paymentRepository;
     }
 
     public async Task<IEnumerable<Order>> GetAllOrdersAsync()
@@ -44,6 +48,19 @@ public class OrderService
     {
         await _orderRepository.UpdateAgentAsync(agent);
     }
+    public async Task CreatePaymentAsync(Payment payment)
+    {
+        await _paymentRepository.AddAsync(payment);
+    }
+    public async Task<Agent?> GetAvailableAgentAsync()
+    {
+        return await _orderRepository.GetAvailableAgentAsync();
+    }
+    public async Task UpdateDeliveryAsync(Delivery delivery)
+    {
+        await _orderRepository.UpdateDeliveryAsync(delivery);
+    }
 
-   
+
+
 }

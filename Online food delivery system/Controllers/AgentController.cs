@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Online_food_delivery_system.Models;
 using Online_food_delivery_system.Service;
@@ -7,6 +8,7 @@ namespace Online_food_delivery_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowReactApp")] 
     public class AgentController : ControllerBase
     {
         private readonly AgentService _agentService;
@@ -39,13 +41,22 @@ namespace Online_food_delivery_system.Controllers
             await _agentService.AddAgentAsync(agent);
             return CreatedAtAction(nameof(GetAllAgents), new { id = agent.AgentID }, agent);
         }
-        [HttpPatch("{id}")]
-        [Authorize(Roles = "admin, agent")]
-        public async Task<IActionResult> UpdatePhoneAddr(int id, [FromBody] AgentcontactDTO upd)
+        [HttpGet("{email}")]
+        [Authorize(Roles = "customer,admin,agent")]
+        public async Task<IActionResult> GetAgentById(string email)
         {
-            var existing = await _agentService.GetAgentByIdAsync(id);
+            var agent = await _agentService.GetAgentByIdAsync(email);
+            if (agent == null)
+                return NotFound("Agent not found");
+            return Ok(agent);
+        }
+        [HttpPatch("{email}")]
+        [Authorize(Roles = "admin, agent")]
+        public async Task<IActionResult> UpdatePhoneAddr(string email, [FromBody] AgentcontactDTO upd)
+        {
+            var existing = await _agentService.GetAgentByIdAsync(email);
             if (existing == null)
-                return NotFound("Customer not found");
+                return NotFound("Agent not found");
             existing.AgentContact = upd.Phone;
             //existing.Address = upd.Address;
             await _agentService.UpdateAgentAsync(existing);
