@@ -715,6 +715,27 @@
   },
   {
     "ContainingType": "Online_food_delivery_system.Controllers.RestaurantController",
+    "Method": "UpdateAvailability",
+    "RelativePath": "api/Restaurant/{email}/availability",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": true
+      },
+      {
+        "Name": "isAvailable",
+        "Type": "System.Boolean",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Online_food_delivery_system.Controllers.RestaurantController",
     "Method": "UpdateRestaurant",
     "RelativePath": "api/Restaurant/{id}",
     "HttpMethod": "PUT",

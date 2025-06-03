@@ -1337,6 +1337,52 @@
         }
       }
     },
+    "/api/Restaurant/{email}/availability": {
+      "patch": {
+        "tags": [
+          "Restaurant"
+        ],
+        "parameters": [
+          {
+            "name": "email",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "type": "boolean"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "type": "boolean"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "boolean"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Token/login": {
       "post": {
         "tags": [
@@ -1780,8 +1826,6 @@
             "type": "string"
           },
           "price": {
-            "maximum": 30000,
-            "minimum": 20,
             "type": "number",
             "format": "double"
           },

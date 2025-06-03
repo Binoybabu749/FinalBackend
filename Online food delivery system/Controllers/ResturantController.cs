@@ -80,7 +80,20 @@ namespace Online_food_delivery_system.Controllers
             await _restaurantService.UpdateRestaurantAsync(existing);
             return NoContent();
         }
+        [HttpPatch("{email}/availability")]
+        public async Task<IActionResult> UpdateAvailability(string email, [FromBody] bool isAvailable)
+        {
+            var restaurant = await _restaurantService.GetRestaurantByIdAsync(email);
 
+            if (restaurant == null)
+            {
+                return NotFound();
+            }
+
+            restaurant.Availability = isAvailable;
+            await _restaurantService.UpdateRestaurantAsync(restaurant);
+            return NoContent();
+        }
 
         [HttpDelete("{id}")]
         [Authorize(Roles = "restaurant,admin")]
