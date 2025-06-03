@@ -32,9 +32,9 @@ namespace Online_food_delivery_system.Service
             await _customerRepository.UpdateAsync(customer);
         }
 
-        public async Task DeleteCustomerAsync(int customerId)
+        public async Task DeleteCustomerAsync(int id)
         {
-            await _customerRepository.DeleteAsync(customerId);
+            await _customerRepository.DeleteAsync(id);
         }
     }
 }

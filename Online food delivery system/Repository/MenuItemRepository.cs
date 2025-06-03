@@ -38,13 +38,13 @@ namespace Online_food_delivery_system.Repository
 
             public async Task<IEnumerable<MenuItem>> GetAllAsync()
             {
-                return await _context.MenuItems.ToListAsync();
+                return await _context.MenuItems.Include(a=>a.Restaurant).ToListAsync();
             }
 
             public async Task<MenuItem> GetByIdAsync(int itemId)
             {
-                return await _context.MenuItems.FindAsync(itemId);
-            }
+            return await _context.MenuItems.Include(a=>a.Restaurant).FirstOrDefaultAsync(c => c.ItemID == itemId);
+        }
 
             public async Task UpdateAsync(MenuItem menuItem)
             {

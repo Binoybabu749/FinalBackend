@@ -61,9 +61,9 @@ namespace Online_food_delivery_system.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int agentId)
+        public async Task DeleteAsync(int id)
         {
-            var agent = await _context.Agents.FindAsync(agentId);
+            var agent = await _context.Agents.FindAsync(id);
             if (agent != null)
             {
                 _context.Agents.Remove(agent);

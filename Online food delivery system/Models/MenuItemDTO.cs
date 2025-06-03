@@ -15,6 +15,7 @@ namespace Online_food_delivery_system.Models
         [Range(20, 30000, ErrorMessage = "Price must be between 20 and 30000")]
         public decimal? Price { get; set; }
         public string? ImageUrl { get; set; }
+        public float? Rating { get; set; }
 
         [Required(ErrorMessage = "Please Enter Restaurant ID")]
         public int? RestaurantID { get; set; }

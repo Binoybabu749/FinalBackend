@@ -9,6 +9,6 @@ namespace Online_food_delivery_system.Interface
         Task<Restaurant> GetByIdAsync(string email);
         Task AddAsync(Restaurant restaurant);
         Task UpdateAsync(Restaurant restaurant);
-        Task DeleteAsync(int restaurantId);
+        Task DeleteAsync(int id);
     }
 }

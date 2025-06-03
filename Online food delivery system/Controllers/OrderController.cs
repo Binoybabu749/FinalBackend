@@ -69,7 +69,8 @@ namespace Online_food_delivery_system.Controllers
                 OrderMenuItems = menuItems.Select(mi => new OrderMenuItem
                 {
                     ItemID = mi.ItemID
-                }).ToList()
+                }).ToList(),
+                OrderDate = null
             };
 
             var createdOrder = await _orderService.AddOrderAsync(order);
@@ -122,7 +123,8 @@ namespace Online_food_delivery_system.Controllers
                         OrderID = order.OrderID,
                         Amount = order.TotalAmount,
                         PaymentMethod = "Google Pay",
-                        Status = "pending"
+                        Status = "pending",
+                        PaymentTime=null,
                     };
                     await _orderService.CreatePaymentAsync(payment);
                 }
@@ -172,6 +174,7 @@ namespace Online_food_delivery_system.Controllers
 
                 await _orderService.UpdateDeliveryAsync(delivery);
                 await _orderService.UpdateAgentAsync(availableAgent);
+                order.OrderDate = DateTime.Now;
             }
 
             await _orderService.UpdateOrderAsync(order);

@@ -32,9 +32,9 @@ namespace Online_food_delivery_system.Service
             await _agentRepository.UpdateAsync(agent);
         }
 
-        public async Task DeleteAgentAsync(int agentId)
+        public async Task DeleteAgentAsync(int id)
         {
-            await _agentRepository.DeleteAsync(agentId);
+            await _agentRepository.DeleteAsync(id);
         }
     }
 }

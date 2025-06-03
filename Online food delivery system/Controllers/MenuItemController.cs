@@ -60,7 +60,8 @@ namespace Online_food_delivery_system.Controllers
                 Description = menuItemDto.Description,
                 Price = menuItemDto.Price,
                 RestaurantID = menuItemDto.RestaurantID,
-                ImageUrl=menuItemDto.ImageUrl
+                ImageUrl=menuItemDto.ImageUrl,
+                Rating = null
             };
 
             await _menuItemService.AddMenuItemAsync(menuItem);

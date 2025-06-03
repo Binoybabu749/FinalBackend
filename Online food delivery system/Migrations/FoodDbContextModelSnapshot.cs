@@ -139,6 +139,9 @@ namespace Online_food_delivery_system.Migrations
                         .IsRequired()
                         .HasColumnType("decimal(10, 2)");
 
+                    b.Property<float?>("Rating")
+                        .HasColumnType("real");
+
                     b.Property<int?>("RestaurantID")
                         .HasColumnType("int");
 
@@ -159,6 +162,9 @@ namespace Online_food_delivery_system.Migrations
 
                     b.Property<int?>("CustomerID")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("OrderDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("RestaurantID")
                         .HasColumnType("int");
@@ -214,6 +220,9 @@ namespace Online_food_delivery_system.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime?>("PaymentTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
                         .HasMaxLength(50)

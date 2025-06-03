@@ -26,6 +26,7 @@ namespace Online_food_delivery_system.Models
 
         public List<OrderMenuItem>? OrderMenuItems { get; set; } //many-many relationship
 
+        public DateTime? OrderDate { get; set; }
 
     }
 }

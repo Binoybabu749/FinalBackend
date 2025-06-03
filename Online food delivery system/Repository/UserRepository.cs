@@ -71,7 +71,7 @@ namespace Online_food_delivery_system.Repository
                         Email = user.Email,
                         RestaurantContact = "+91",
                         Address = "default",
-                        Availability = true, 
+                        Availability = true,
 
                     };
                     _context.Restaurants.Add(restaurant);
@@ -99,7 +99,7 @@ namespace Online_food_delivery_system.Repository
             }
         }
     }
-    
 
-    
+
+
 }

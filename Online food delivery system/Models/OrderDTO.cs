@@ -6,6 +6,7 @@
             public int RestaurantID { get; set; }
             public List<int> MenuItemIDs { get; set; } = new List<int>();
             public string? Status { get; set; }
+            public DateTime? OrderDate { get; set; }
         
     }
 

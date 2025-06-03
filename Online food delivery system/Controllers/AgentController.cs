@@ -13,7 +13,8 @@ namespace Online_food_delivery_system.Controllers
     {
         private readonly AgentService _agentService;
 
-        public AgentController(AgentService agentService)
+
+        public AgentController(AgentService agentService,UserService user)
         {
             _agentService = agentService;
         }
@@ -74,10 +75,11 @@ namespace Online_food_delivery_system.Controllers
         }
 
         [HttpDelete("{id}")]
-        //[Authorize(Roles = "agent,admin")]
+        [Authorize(Roles = "agent,admin")]
         public async Task<IActionResult> DeleteAgent(int id)
         {
             await _agentService.DeleteAgentAsync(id);
+          
             return NoContent();
         }
     }

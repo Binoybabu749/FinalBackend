@@ -22,6 +22,7 @@ namespace Online_food_delivery_system.Models
 
         [MaxLength(50)]
         public string? Status { get; set; }
+        public DateTime? PaymentTime { get; set; }
 
         public Delivery? Delivery { get; set; }
 

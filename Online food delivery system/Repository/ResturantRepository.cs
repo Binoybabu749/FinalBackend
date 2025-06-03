@@ -41,9 +41,9 @@ namespace Online_food_delivery_system.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int restaurantId)
+        public async Task DeleteAsync(int id)
         {
-            var restaurant = await _context.Restaurants.FindAsync(restaurantId);
+            var restaurant = await _context.Restaurants.FindAsync(id);
             if (restaurant != null)
             {
                 _context.Restaurants.Remove(restaurant);

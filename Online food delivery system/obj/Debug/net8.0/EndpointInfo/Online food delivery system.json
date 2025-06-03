@@ -1689,6 +1689,15 @@
             "type": "number",
             "format": "double"
           },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
           "restaurantID": {
             "type": "integer",
             "format": "int32",
@@ -1730,6 +1739,15 @@
             "minimum": 20,
             "type": "number",
             "format": "double"
+          },
+          "imageUrl": {
+            "type": "string",
+            "nullable": true
+          },
+          "rating": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
           },
           "restaurantID": {
             "type": "integer",
@@ -1782,6 +1800,11 @@
               "$ref": "#/components/schemas/OrderMenuItem"
             },
             "nullable": true
+          },
+          "orderDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1807,6 +1830,11 @@
           },
           "status": {
             "type": "string",
+            "nullable": true
+          },
+          "orderDate": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
           }
         },
@@ -1863,6 +1891,11 @@
           "status": {
             "maxLength": 50,
             "type": "string",
+            "nullable": true
+          },
+          "paymentTime": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
           },
           "delivery": {

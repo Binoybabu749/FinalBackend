@@ -8,6 +8,6 @@ namespace Online_food_delivery_system.Interface
         Task<Agent> GetByIdAsync(string email);
         Task AddAsync(Agent agent);
         Task UpdateAsync(Agent agent);
-        Task DeleteAsync(int agentId);
+        Task DeleteAsync(int id);
     }
 }

@@ -49,7 +49,7 @@ namespace Online_food_delivery_system.Controllers
                 return NotFound("Payment not found");
 
             payment.Status = "Completed";
-
+            payment.PaymentTime= DateTime.Now;
             await _paymentService.UpdatePaymentAsync(payment);
 
             return Ok("Payment status updated successfully");

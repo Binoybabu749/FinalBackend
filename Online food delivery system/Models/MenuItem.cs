@@ -21,6 +21,7 @@ namespace Online_food_delivery_system.Models
         
         public decimal? Price { get; set; }
         public string? ImageUrl { get; set; }
+        public float? Rating { get; set; }
         [ForeignKey("Restaurant")]
         public int? RestaurantID { get; set; }
         public Restaurant? Restaurant { get; set; }
