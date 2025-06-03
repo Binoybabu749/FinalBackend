@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Online_food_delivery_system.Models;
 using Online_food_delivery_system.Service;
@@ -84,6 +85,21 @@ namespace Online_food_delivery_system.Controllers
                 return NotFound("Menu item not found");
 
             await _menuItemService.UpdateMenuItemAsync(menuItem);
+            return NoContent();
+        }
+        [HttpPatch("{id}")]
+        //[Authorize(Roles = "admin, agent")]
+        public async Task<IActionResult> UpdatePhoneAddr(int id, [FromBody] MenuItemDTO upd)
+        {
+            var existing = await _menuItemService.GetMenuItemByIdAsync(id);
+            if (existing == null)
+                return NotFound("Menu Item  not found");
+            existing.Name = upd.Name;
+            existing.Description = upd.Description;
+            existing.Price= upd.Price;
+            existing.Rating = upd.Rating;
+            
+            await _menuItemService.UpdateMenuItemAsync(existing);
             return NoContent();
         }
 

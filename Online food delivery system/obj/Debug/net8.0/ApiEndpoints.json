@@ -363,6 +363,27 @@
   },
   {
     "ContainingType": "Online_food_delivery_system.Controllers.MenuItemController",
+    "Method": "UpdatePhoneAddr",
+    "RelativePath": "api/MenuItem/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "upd",
+        "Type": "Online_food_delivery_system.Models.MenuItemDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Online_food_delivery_system.Controllers.MenuItemController",
     "Method": "DeleteMenuItem",
     "RelativePath": "api/MenuItem/{id}",
     "HttpMethod": "DELETE",
