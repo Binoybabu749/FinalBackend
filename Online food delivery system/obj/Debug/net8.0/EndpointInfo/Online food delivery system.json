@@ -1940,6 +1940,10 @@
           },
           "menuItem": {
             "$ref": "#/components/schemas/MenuItem"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

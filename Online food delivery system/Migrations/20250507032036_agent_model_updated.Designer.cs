@@ -12,8 +12,8 @@ using Online_food_delivery_system.Models;
 namespace Online_food_delivery_system.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    [Migration("20250604042458_lastmigration")]
-    partial class lastmigration
+    [Migration("20250507032036_agent_model_updated")]
+    partial class agent_model_updated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,11 +41,6 @@ namespace Online_food_delivery_system.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsAvailable")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(true);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -79,6 +74,7 @@ namespace Online_food_delivery_system.Migrations
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("CustomerID");
@@ -130,9 +126,6 @@ namespace Online_food_delivery_system.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -141,9 +134,6 @@ namespace Online_food_delivery_system.Migrations
                     b.Property<decimal?>("Price")
                         .IsRequired()
                         .HasColumnType("decimal(10, 2)");
-
-                    b.Property<float?>("Rating")
-                        .HasColumnType("real");
 
                     b.Property<int?>("RestaurantID")
                         .HasColumnType("int");
@@ -165,9 +155,6 @@ namespace Online_food_delivery_system.Migrations
 
                     b.Property<int?>("CustomerID")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("OrderDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("RestaurantID")
                         .HasColumnType("int");
@@ -224,9 +211,6 @@ namespace Online_food_delivery_system.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime?>("PaymentTime")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Status")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -257,9 +241,6 @@ namespace Online_food_delivery_system.Migrations
                     b.Property<bool?>("Availability")
                         .IsRequired()
                         .HasColumnType("bit");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RestaurantContact")
                         .IsRequired()

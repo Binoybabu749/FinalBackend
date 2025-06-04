@@ -50,7 +50,7 @@ namespace Online_food_delivery_system.Repository
         public async Task AddAsync(Customer customer)
         {
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == customer.Email);
-            if(existingUser == null)
+            if (existingUser == null)
             {
                 var user = new User
                 {
@@ -59,7 +59,7 @@ namespace Online_food_delivery_system.Repository
                     Password = "default",
                     Role = "customer"
                 };
-                
+
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
             }
@@ -80,7 +80,7 @@ namespace Online_food_delivery_system.Repository
             {
                 _context.Customers.Remove(customer);
                 await _context.SaveChangesAsync();
+            }
         }
-    }
     }
 }

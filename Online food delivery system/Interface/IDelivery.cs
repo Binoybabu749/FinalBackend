@@ -13,6 +13,6 @@ namespace Online_food_delivery_system.Interface
 
         Task DeleteAsync(int deliveryId);
         Task UpdateAgentAvailabilityAsync(Agent selectedAgent);
-      
+
     }
 }

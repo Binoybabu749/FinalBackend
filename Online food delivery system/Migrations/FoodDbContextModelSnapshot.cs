@@ -184,21 +184,6 @@ namespace Online_food_delivery_system.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Online_food_delivery_system.Models.OrderMenuItem", b =>
-                {
-                    b.Property<int>("OrderID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ItemID")
-                        .HasColumnType("int");
-
-                    b.HasKey("OrderID", "ItemID");
-
-                    b.HasIndex("ItemID");
-
-                    b.ToTable("OrderMenuItems");
-                });
-
             modelBuilder.Entity("Online_food_delivery_system.Models.Payment", b =>
                 {
                     b.Property<int>("PaymentID")
@@ -304,6 +289,26 @@ namespace Online_food_delivery_system.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("OrderMenuItem", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ItemID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(1);
+
+                    b.HasKey("OrderID", "ItemID");
+
+                    b.HasIndex("ItemID");
+
+                    b.ToTable("OrderMenuItems");
+                });
+
             modelBuilder.Entity("Online_food_delivery_system.Models.Delivery", b =>
                 {
                     b.HasOne("Online_food_delivery_system.Models.Agent", "Agent")
@@ -347,7 +352,23 @@ namespace Online_food_delivery_system.Migrations
                     b.Navigation("Restaurant");
                 });
 
-            modelBuilder.Entity("Online_food_delivery_system.Models.OrderMenuItem", b =>
+            modelBuilder.Entity("Online_food_delivery_system.Models.Payment", b =>
+                {
+                    b.HasOne("Online_food_delivery_system.Models.Delivery", "Delivery")
+                        .WithMany()
+                        .HasForeignKey("DeliveryID");
+
+                    b.HasOne("Online_food_delivery_system.Models.Order", "Order")
+                        .WithOne("Payment")
+                        .HasForeignKey("Online_food_delivery_system.Models.Payment", "OrderID")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Delivery");
+
+                    b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("OrderMenuItem", b =>
                 {
                     b.HasOne("Online_food_delivery_system.Models.MenuItem", "MenuItem")
                         .WithMany("OrderMenuItems")
@@ -362,22 +383,6 @@ namespace Online_food_delivery_system.Migrations
                         .IsRequired();
 
                     b.Navigation("MenuItem");
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("Online_food_delivery_system.Models.Payment", b =>
-                {
-                    b.HasOne("Online_food_delivery_system.Models.Delivery", "Delivery")
-                        .WithMany()
-                        .HasForeignKey("DeliveryID");
-
-                    b.HasOne("Online_food_delivery_system.Models.Order", "Order")
-                        .WithOne("Payment")
-                        .HasForeignKey("Online_food_delivery_system.Models.Payment", "OrderID")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Delivery");
 
                     b.Navigation("Order");
                 });

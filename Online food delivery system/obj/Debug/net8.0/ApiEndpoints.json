@@ -534,7 +534,7 @@
     "Parameters": [
       {
         "Name": "orderMenuItem",
-        "Type": "Online_food_delivery_system.Models.OrderMenuItem",
+        "Type": "OrderMenuItem",
         "IsRequired": true
       }
     ],

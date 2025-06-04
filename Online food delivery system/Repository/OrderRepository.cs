@@ -30,7 +30,6 @@ namespace Online_food_delivery_system.Repository
 
         public async Task AddAsync(Order order)
         {
-            // Calculate the total amount for the order
             // Extract the list of ItemIDs from OrderMenuItems
             IList<int> orderMenuItemIds = order.OrderMenuItems.Select(o => o.ItemID).ToList();
 
@@ -39,24 +38,23 @@ namespace Online_food_delivery_system.Repository
                 .Where(m => orderMenuItemIds.Contains(m.ItemID))
                 .ToListAsync();
 
-            // Calculate the total amount
-            order.TotalAmount = menuItems.Sum(m => m.Price ?? 0);
+            // ✅ Calculate the total amount using quantity
+            decimal total = 0;
+            foreach (var omi in order.OrderMenuItems)
+            {
+                var menuItem = menuItems.FirstOrDefault(m => m.ItemID == omi.ItemID);
+                if (menuItem != null)
+                {
+                    total += (menuItem.Price ?? 0) * omi.Quantity;
+                }
+            }
+            order.TotalAmount = total;
 
             // Add the order
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
 
-            //// Create the payment entry
-            //Payment payment = new Payment
-            //{
-            //    OrderID = order.OrderID,
-            //    Amount = order.TotalAmount,
-            //    PaymentMethod = "Google Pay", // or any default value
-            //    Status = "Pending" // or any default value
-            //};
-
-            //await _context.Payments.AddAsync(payment);
-            //await _context.SaveChangesAsync();
+            // Create the delivery entry
             Delivery delivery = new Delivery
             {
                 OrderID = order.OrderID,
@@ -71,6 +69,7 @@ namespace Online_food_delivery_system.Repository
             _context.Orders.Update(order);
             await _context.SaveChangesAsync();
         }
+
 
         public async Task DeleteAsync(int OrderID)
         {

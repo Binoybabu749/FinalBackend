@@ -81,7 +81,9 @@ namespace Online_food_delivery_system.Models
                 .HasOne(om => om.MenuItem)
                 .WithMany(m => m.OrderMenuItems)
                 .HasForeignKey(om => om.ItemID);
-
+            modelBuilder.Entity<OrderMenuItem>()
+             .Property(om => om.Quantity)
+             .HasDefaultValue(1);
             // Define primary keys
             modelBuilder.Entity<Customer>().HasKey(c => c.CustomerID);
             modelBuilder.Entity<Restaurant>().HasKey(r => r.RestaurantID);

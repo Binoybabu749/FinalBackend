@@ -37,7 +37,7 @@ namespace Online_food_delivery_system.Controllers
             var menuItems = await _menuItemService.GetAllMenuItemsAsync();
             return Ok(menuItems);
         }
-       
+
         // GET: api/MenuItem/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetMenuItemById(int id)
@@ -61,7 +61,7 @@ namespace Online_food_delivery_system.Controllers
                 Description = menuItemDto.Description,
                 Price = menuItemDto.Price,
                 RestaurantID = menuItemDto.RestaurantID,
-                ImageUrl=menuItemDto.ImageUrl,
+                ImageUrl = menuItemDto.ImageUrl,
                 Rating = null
             };
 
@@ -96,9 +96,9 @@ namespace Online_food_delivery_system.Controllers
                 return NotFound("Menu Item  not found");
             existing.Name = upd.Name;
             existing.Description = upd.Description;
-            existing.Price= upd.Price;
+            existing.Price = upd.Price;
             existing.Rating = upd.Rating;
-            
+
             await _menuItemService.UpdateMenuItemAsync(existing);
             return NoContent();
         }

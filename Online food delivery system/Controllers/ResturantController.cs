@@ -38,7 +38,7 @@ namespace Online_food_delivery_system.Controllers
 
         [HttpPost]
         [Authorize(Roles = "restaurant,admin")]
-          
+
         public async Task<IActionResult> AddRestaurant([FromBody] RestaurantDTO restaurantDto)
         {
             if (!ModelState.IsValid)

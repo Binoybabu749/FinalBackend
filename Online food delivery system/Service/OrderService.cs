@@ -7,7 +7,7 @@ public class OrderService
     private readonly IOrder _orderRepository;
     private readonly IPayment _paymentRepository;
 
-    public OrderService(IOrder orderRepository,IPayment paymentRepository)
+    public OrderService(IOrder orderRepository, IPayment paymentRepository)
     {
         _orderRepository = orderRepository;
         _paymentRepository = paymentRepository;
@@ -25,15 +25,15 @@ public class OrderService
 
     public async Task<Order> AddOrderAsync(Order order)
     {
-       await _orderRepository.AddAsync(order);
+        await _orderRepository.AddAsync(order);
         return order;
     }
-  
+
 
 
     public async Task<Order> UpdateOrderAsync(Order order)
     {
-    //    order.CalculateTotalAmount();
+        //    order.CalculateTotalAmount();
         await _orderRepository.UpdateAsync(order);
         return order;
     }
@@ -42,7 +42,7 @@ public class OrderService
     {
         await _orderRepository.DeleteAsync(orderID);
     }
-   
+
 
     public async Task UpdateAgentAsync(Agent agent)
     {

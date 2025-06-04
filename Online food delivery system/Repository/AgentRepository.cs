@@ -46,7 +46,7 @@ namespace Online_food_delivery_system.Repository
                 .Include(a => a.Deliveries)
                     .ThenInclude(d => d.Order)
                         .ThenInclude(o => o.OrderMenuItems) // Include OrderMenuItems in Order
-                .FirstOrDefaultAsync(a => a.Email== email);
+                .FirstOrDefaultAsync(a => a.Email == email);
         }
 
         public async Task AddAsync(Agent agent)

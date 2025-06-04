@@ -5,25 +5,25 @@
 namespace Online_food_delivery_system.Migrations
 {
     /// <inheritdoc />
-    public partial class lastmigration : Migration
+    public partial class customermodelupdated : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Quantity",
-                table: "OrderMenuItems");
+            migrationBuilder.AddColumn<string>(
+                name: "Address",
+                table: "Customers",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "Quantity",
-                table: "OrderMenuItems",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
+            migrationBuilder.DropColumn(
+                name: "Address",
+                table: "Customers");
         }
     }
 }

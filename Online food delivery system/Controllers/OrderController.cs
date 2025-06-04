@@ -48,16 +48,28 @@ namespace Online_food_delivery_system.Controllers
             var menuItems = new List<MenuItem>();
             decimal totalAmount = 0;
 
-            foreach (var itemId in orderDto.MenuItemIDs)
+            var groupedItems = orderDto.MenuItemIDs
+                .GroupBy(id => id)
+                .Select(g => new { ItemID = g.Key, Quantity = g.Count() });
+
+            var orderMenuItems = new List<OrderMenuItem>();
+
+            foreach (var group in groupedItems)
             {
-                var item = await _menuItemService.GetMenuItemByIdAsync(itemId);
+                var item = await _menuItemService.GetMenuItemByIdAsync(group.ItemID);
                 if (item == null)
-                    return NotFound($"Menu item with ID {itemId} not found.");
+                    return NotFound($"Menu item with ID {group.ItemID} not found.");
                 if (item.RestaurantID != orderDto.RestaurantID)
-                    return BadRequest($"Menu item with ID {itemId} does not belong to the specified restaurant.");
+                    return BadRequest($"Menu item with ID {group.ItemID} does not belong to the specified restaurant.");
 
                 menuItems.Add(item);
-                totalAmount += item.Price ?? 0;
+                totalAmount += (item.Price ?? 0) * group.Quantity;
+
+                orderMenuItems.Add(new OrderMenuItem
+                {
+                    ItemID = item.ItemID,
+                    Quantity = group.Quantity
+                });
             }
 
             var order = new Order
@@ -66,16 +78,14 @@ namespace Online_food_delivery_system.Controllers
                 RestaurantID = orderDto.RestaurantID,
                 Status = orderDto.Status,
                 TotalAmount = totalAmount,
-                OrderMenuItems = menuItems.Select(mi => new OrderMenuItem
-                {
-                    ItemID = mi.ItemID
-                }).ToList(),
+                OrderMenuItems = orderMenuItems,
                 OrderDate = null
             };
 
             var createdOrder = await _orderService.AddOrderAsync(order);
             return CreatedAtAction(nameof(GetOrderById), new { id = createdOrder.OrderID }, createdOrder);
         }
+
 
         // PUT: api/Order/{id}
         [HttpPut("{id}")]

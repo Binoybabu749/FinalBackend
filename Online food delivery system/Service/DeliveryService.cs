@@ -26,7 +26,7 @@ namespace Online_food_delivery_system.Service
         public async Task AssignDeliveryAgentAutomaticallyAsync(int orderId, DateTime estimatedTimeOfArrival)
         {
             // Validate the order exists
-            
+
 
             var availableAgents = await _deliveryRepository.GetAvailableAgentsAsync();
             if (!availableAgents.Any())
@@ -95,7 +95,7 @@ namespace Online_food_delivery_system.Service
             await _deliveryRepository.AddAsync(delivery);
         }
 
-        
+
 
         public async Task DeleteDeliveryAsync(int deliveryId)
         {

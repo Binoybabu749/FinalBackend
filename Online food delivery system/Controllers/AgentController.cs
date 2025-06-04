@@ -8,13 +8,13 @@ namespace Online_food_delivery_system.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("AllowReactApp")] 
+    [EnableCors("AllowReactApp")]
     public class AgentController : ControllerBase
     {
         private readonly AgentService _agentService;
 
 
-        public AgentController(AgentService agentService,UserService user)
+        public AgentController(AgentService agentService, UserService user)
         {
             _agentService = agentService;
         }
@@ -37,7 +37,7 @@ namespace Online_food_delivery_system.Controllers
                 AgentContact = agentDTO.AgentContact,
                 Email = agentDTO.Email,
                 IsAvailable = agentDTO.IsAvailable
-            }; 
+            };
 
             await _agentService.AddAgentAsync(agent);
             return CreatedAtAction(nameof(GetAllAgents), new { id = agent.AgentID }, agent);
@@ -79,7 +79,7 @@ namespace Online_food_delivery_system.Controllers
         public async Task<IActionResult> DeleteAgent(int id)
         {
             await _agentService.DeleteAgentAsync(id);
-          
+
             return NoContent();
         }
     }

@@ -74,7 +74,7 @@ namespace Online_food_delivery_system.Controllers
                     await _deliveryService.UpdateAgentAsync(delivery.Agent);
                 }
 
-                await _deliveryService.UpdateDeliveryAsync(delivery.DeliveryID,status);
+                await _deliveryService.UpdateDeliveryAsync(delivery.DeliveryID, status);
                 return Ok("Delivery status updated to 'completed' and agent marked as available.");
             }
             catch (Exception ex)
