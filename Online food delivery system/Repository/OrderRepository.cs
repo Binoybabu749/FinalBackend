@@ -21,7 +21,7 @@ namespace Online_food_delivery_system.Repository
             await _context.SaveChangesAsync();
         }
 
-        
+
         public async Task UpdateAgentAsync(Agent agent)
         {
             _context.Agents.Update(agent);

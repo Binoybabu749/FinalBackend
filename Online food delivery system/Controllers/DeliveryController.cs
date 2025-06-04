@@ -57,7 +57,7 @@ namespace Online_food_delivery_system.Controllers
             if (string.IsNullOrWhiteSpace(status))
                 return BadRequest("Status cannot be null or empty");
 
-            if (status.ToLower() != "completed")
+            if (status.ToLower() != "delivered")
                 return BadRequest("Only 'completed' status is allowed for this operation.");
 
             try

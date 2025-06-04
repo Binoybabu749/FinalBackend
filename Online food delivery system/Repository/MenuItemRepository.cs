@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NuGet.ProjectModel;
 using Online_food_delivery_system.Interface;
 using Online_food_delivery_system.Models;
 
@@ -56,6 +57,7 @@ namespace Online_food_delivery_system.Repository
                 return await _context.MenuItems
                     .Where(m => m.Name != null && m.Name.Contains(menuItemName)) // Added null check for Name
                     .Select(m => m.Restaurant!)
+                    .Include(a=>a.RestaurantName)
                     .Distinct()
                     .ToListAsync();
             }

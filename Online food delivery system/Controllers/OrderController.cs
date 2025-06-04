@@ -25,7 +25,7 @@ namespace Online_food_delivery_system.Controllers
         public async Task<IActionResult> GetAllOrders()
         {
             var orders = await _orderService.GetAllOrdersAsync();
-            
+
             return Ok(orders);
         }
 
@@ -53,7 +53,7 @@ namespace Online_food_delivery_system.Controllers
                 var item = await _menuItemService.GetMenuItemByIdAsync(itemId);
                 if (item == null)
                     return NotFound($"Menu item with ID {itemId} not found.");
-                if(item.RestaurantID != orderDto.RestaurantID)
+                if (item.RestaurantID != orderDto.RestaurantID)
                     return BadRequest($"Menu item with ID {itemId} does not belong to the specified restaurant.");
 
                 menuItems.Add(item);
@@ -124,7 +124,7 @@ namespace Online_food_delivery_system.Controllers
                         Amount = order.TotalAmount,
                         PaymentMethod = "Google Pay",
                         Status = "pending",
-                        PaymentTime=null,
+                        PaymentTime = null,
                     };
                     await _orderService.CreatePaymentAsync(payment);
                 }

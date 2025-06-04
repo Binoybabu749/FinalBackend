@@ -26,6 +26,14 @@ namespace Online_food_delivery_system.Repository
             return await _context.Restaurants
                 .Include(r => r.MenuItems)
                 .Include(r => r.Orders)
+                .ThenInclude(o=>o.Customer)
+                .Include(r=>r.Orders)
+                .ThenInclude(o=>o.Delivery)
+                .Include(r=>r.Orders)
+                .ThenInclude(o => o.Payment)
+                .Include(r => r.Orders)
+                .ThenInclude(o => o.OrderMenuItems)
+                .ThenInclude(omi=>omi.MenuItem)
                 .FirstOrDefaultAsync(r => r.Email== email);
         }
 

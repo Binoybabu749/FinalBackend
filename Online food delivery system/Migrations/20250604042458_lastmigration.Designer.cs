@@ -12,8 +12,8 @@ using Online_food_delivery_system.Models;
 namespace Online_food_delivery_system.Migrations
 {
     [DbContext(typeof(FoodDbContext))]
-    [Migration("20250603041246_added rating")]
-    partial class addedrating
+    [Migration("20250604042458_lastmigration")]
+    partial class lastmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

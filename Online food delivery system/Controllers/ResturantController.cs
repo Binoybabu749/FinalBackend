@@ -19,7 +19,7 @@ namespace Online_food_delivery_system.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "customer,restaurant,admin")]
+        //[Authorize(Roles = "customer,restaurant,admin")]
         public async Task<IActionResult> GetAllRestaurants()
         {
             var restaurants = await _restaurantService.GetAllRestaurantsAsync();
