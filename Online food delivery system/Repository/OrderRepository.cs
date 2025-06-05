@@ -98,6 +98,8 @@ namespace Online_food_delivery_system.Repository
             return await _context.Orders
                 .Include(o => o.Payment)
                 .Include(o => o.Delivery)
+                .Include(o=>o.Restaurant)
+                .Include(o => o.OrderMenuItems)
                 .FirstOrDefaultAsync(o => o.OrderID == orderId);
         }
 
